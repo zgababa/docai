@@ -1,0 +1,11 @@
+
+node_modules/
+dist/
+
+.env
+
+_mock/mock-config.ts
+_mock/run
+
+_mock/test/markdownUpdated
+_mock/test/commented

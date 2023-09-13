@@ -1,0 +1,35 @@
+import fs from 'fs'
+import path from 'path'
+
+import { getMarkdown } from './get-markdown.js'
+import { getOutputFilePath } from './get-output-file-path.js'
+import { ensureDirExists } from '../utils/file.js'
+
+export function writeMarkdownFile(originalDir: string, config: ConfigCLI) {
+  return async (inputFilePath: string) => {
+    if (inputFilePath === '') throw new Error('No input file path provided')
+
+    const codeContent = fs.readFileSync(inputFilePath, 'utf-8')
+    const title = inputFilePath.split('/').pop()?.split('.')[0]
+
+    if (title === undefined) {
+      throw new Error('Error un inputFilePath')
+    }
+
+    const markdown = await getMarkdown(
+      inputFilePath,
+      codeContent,
+      title,
+      config.isMocked
+    )
+    const outputFilePath = getOutputFilePath(
+      inputFilePath,
+      originalDir,
+      config.outputDir
+    )
+
+    ensureDirExists(path.dirname(outputFilePath))
+
+    fs.writeFileSync(outputFilePath, markdown)
+  }
+}

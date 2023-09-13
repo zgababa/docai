@@ -1,0 +1,30 @@
+service: my-service
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+
+functions:
+  getUsers:
+    handler: src/back/getUsers.handler
+    events:
+      - http:
+          path: users
+          method: get
+          cors: true
+  createUser:
+    handler: src/back/createUser.handler
+    events:
+      - http:
+          path: users
+          method: post
+          cors: true
+  deleteUser:
+    handler: src/back/deleteUser.handler
+    events:
+      - http:
+          path: users/{id}
+          method: delete
+          cors: true
