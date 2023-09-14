@@ -61,10 +61,8 @@ export function getFilesFromFolder(folderPath: string): string[] {
 }
 
 export function deleteFolder(directoryPath: string) {
-  try {
+  if (fs.existsSync(directoryPath)) {
     fs.rmSync(directoryPath, { recursive: true })
-  } catch (err) {
-    console.error(`Error while deleting ${directoryPath}.`, err)
   }
 }
 

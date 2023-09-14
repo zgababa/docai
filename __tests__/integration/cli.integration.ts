@@ -100,9 +100,8 @@ const {
       'utf8'
     )
 
-    const expectedContent = `#c
-    ## Description
-Ce fichier contient deux parties distinctes. La première partie est un module JavaScript qui exporte trois fonctions : \`matrixAddition\`, \`matrixMultiplication\` et \`matrixTranspose\`. Ces fonctions effectuent des opérations sur des matrices. La deuxième partie est également un module JavaScript qui exporte trois fonctions : \`dotProduct\`, \`crossProduct\` et \`vectorMagnitude\`. Ces fonctions effectuent des opérations sur des vecteurs.`
+    const expectedContent = `# c ## Description
+This file contains two distinct parts. The first part is a JavaScript module that exports three functions: \`matrixAddition\`, \`matrixMultiplication\`, and \`matrixTranspose\`. These functions perform operations on matrices. The second part is also a JavaScript module that exports three functions: \`dotProduct\`, \`crossProduct\`, and \`vectorMagnitude\`. These functions perform operations on vectors.`
 
     expect(fileContent.replace(/\s+/g, '')).toContain(
       expectedContent.replace(/\s+/g, '')

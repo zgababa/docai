@@ -1,6 +1,6 @@
 {
   "name": "docai",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "DocAi is an automated tool that leverages artificial intelligence to generate comprehensive Markdown documentation from JS/TS code",
   "main": "./src/index.js",
   "engines": {
