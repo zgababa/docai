@@ -18,22 +18,26 @@ describe('Model', () => {
     expect(() => getModel()).toThrow('Model has not been initialized yet')
   })
 
+  it('Should throw error if initializeOpenAI is called without apiKey', () => {
+    expect(() => initializeOpenAI({ apiKey: '' })).toThrow('Missing apiKey')
+  })
+
   it('Should initialize OpenAI model correctly', () => {
-    const modelInstance = initializeOpenAI({})
+    const modelInstance = initializeOpenAI({ apiKey: 'apiKey' })
     expect(OpenAI).toHaveBeenCalledTimes(1)
     expect(modelInstance).toBeDefined()
   })
 
   it('Should return the initialized model after calling initializeOpenAI', () => {
-    initializeOpenAI({})
+    initializeOpenAI({ apiKey: 'apiKey' })
     const modelInstance = getModel()
     expect(modelInstance).toBeDefined()
     expect(OpenAI).toHaveBeenCalledTimes(1)
   })
 
   it('Should not re-initialize if initializeOpenAI is called more than once', () => {
-    initializeOpenAI({})
-    initializeOpenAI({})
+    initializeOpenAI({ apiKey: 'apiKey' })
+    initializeOpenAI({ apiKey: 'apiKey' })
     expect(OpenAI).toHaveBeenCalledTimes(1)
   })
 
@@ -42,9 +46,9 @@ describe('Model', () => {
       modelName: 'test-model',
       temperature: 5
     }
-    initializeOpenAI(params)
+    initializeOpenAI({ ...params, apiKey: 'apiKey' })
     expect(OpenAI).toHaveBeenCalledWith({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: 'apiKey',
       ...params
     })
   })

@@ -7,10 +7,11 @@ import { generateDescriptionByFile } from './generate-descriptions.js'
 import { addDescriptionsToImports } from './add-descriptions.js'
 import { orderFilesByDeepestDependencies } from './order-files.js'
 import { getPathAndDescription } from './get-path-and-description.js'
+import type { Config } from '../types/internal.js'
 
 export async function addCommentsPerFile(
   entryPoint: string,
-  config: ConfigCLI
+  config: Config
 ): Promise<string> {
   const { tmpPath, descriptions } = getPathAndDescription(config)
 
@@ -27,8 +28,9 @@ export async function addCommentsPerFile(
   )
 
   const filesToAddDoc = await Promise.all(
-    reverseTree.map(async (filePath) =>
-      await generateDescriptionByFile(filePath, descriptions)()
+    reverseTree.map(
+      async (filePath) =>
+        await generateDescriptionByFile(filePath, descriptions)()
     )
   )
 

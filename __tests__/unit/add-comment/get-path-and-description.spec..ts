@@ -1,4 +1,5 @@
 import { getPathAndDescription } from '../../../src/add-comment/get-path-and-description.js'
+import type { Config } from '../../../src/types/internal.js'
 import { createTempDirectory } from '../../../src/utils/file.js'
 import { toJestMock } from '../../../src/utils/mockType.js'
 
@@ -14,7 +15,7 @@ describe('getPathAndDescription', () => {
   })
 
   it('Should return mocked path and descriptions when MOCKED is true', () => {
-    const result = getPathAndDescription({ isMocked: true } as any as ConfigCLI)
+    const result = getPathAndDescription({ isMocked: true } as any as Config)
 
     expect(createTempDirectory).toHaveBeenCalledTimes(0)
     expect(result).toEqual({
@@ -27,7 +28,7 @@ describe('getPathAndDescription', () => {
     const result = getPathAndDescription({
       isMocked: true,
       tmpFolderPath: 'tmpFolderPath'
-    } as any as ConfigCLI)
+    } as any as Config)
 
     expect(createTempDirectory).toHaveBeenCalledTimes(0)
     expect(result).toEqual({
@@ -40,7 +41,7 @@ describe('getPathAndDescription', () => {
     toJestMock(createTempDirectory).mockReturnValue('tempPath')
     const result = getPathAndDescription({
       isMocked: false
-    } as any as ConfigCLI)
+    } as any as Config)
 
     expect(createTempDirectory).toHaveBeenCalledTimes(1)
     expect(result.tmpPath).toBe('tempPath')
@@ -51,7 +52,7 @@ describe('getPathAndDescription', () => {
     const result = getPathAndDescription({
       isMocked: false,
       tmpFolderPath: 'foo'
-    } as any as ConfigCLI)
+    } as any as Config)
 
     expect(createTempDirectory).toHaveBeenCalledTimes(0)
     expect(result.tmpPath).toBe('foo')

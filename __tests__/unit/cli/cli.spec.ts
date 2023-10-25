@@ -1,5 +1,5 @@
 import path from 'path'
-import { run } from '../../../src/cli/cli.js'
+import { cli } from '../../../src/cli/cli.js'
 import { addCommentsPerFile } from '../../../src/add-comment/index.js'
 import { generateMarkdownFromCommentedCode } from '../../../src/generate-doc/index.js'
 import { getHandlerPaths } from '../../../src/plugins/serverless/index.js'
@@ -18,9 +18,14 @@ describe('CLI Unit', () => {
     tmpFolderPath: '',
     entryPoint: undefined,
     isMocked: false,
-    openAi: { modelName: undefined, temperature: undefined },
+    openAi: {
+      modelName: undefined,
+      temperature: undefined,
+      apiKey: 'test-key'
+    },
     outputDir: path.resolve(process.cwd(), 'fakeFolderOutput'),
-    serverlessEntryPoint: 'fake/folder/serverless.yml'
+    serverlessEntryPoint: 'fake/folder/serverless.yml',
+    files: []
   }
 
   beforeEach(() => {
@@ -40,12 +45,12 @@ describe('CLI Unit', () => {
     process.env.OPENAI_API_KEY = ''
 
     await expect(async () => {
-      await run([])
-    }).rejects.toThrow('Missing OPENAI_API_KEY in env')
+      await cli([])
+    }).rejects.toThrow('Missing ENV OPENAI_API_KEY')
   })
 
   it('Should call initializeOpenAI', async () => {
-    await run([
+    await cli([
       '--temperature',
       '10',
       '--modelName',
@@ -56,6 +61,7 @@ describe('CLI Unit', () => {
       'fakeFolderOutput'
     ])
     expect(initializeOpenAI).toHaveBeenCalledWith({
+      apiKey: 'test-key',
       temperature: 10,
       modelName: 'openAi'
     })
@@ -63,18 +69,18 @@ describe('CLI Unit', () => {
 
   it('Should throw an error when output args is missing', async () => {
     await expect(async () => {
-      await run([])
+      await cli([])
     }).rejects.toThrow('An outpath path is required')
   })
 
   it('Should throw an error when neither serverless of entrypoint are passed', async () => {
     await expect(async () => {
-      await run(['--output', 'fakeFolderOutput'])
+      await cli(['--output', 'fakeFolderOutput'])
     }).rejects.toThrow('You have to pass an entrypoint or a serverless path')
   })
 
   it('Should call getHandlerPaths when serverless option is passed', async () => {
-    await run([
+    await cli([
       '--serverless',
       'fake/folder/serverless.yml',
       '--basedir',
@@ -83,13 +89,13 @@ describe('CLI Unit', () => {
       'fakeFolderOutput'
     ])
     expect(getHandlerPaths).toHaveBeenCalledWith(
-      'fake/folder/serverless.yml',
+      path.resolve('fake/folder/serverless.yml'),
       path.resolve('fake/folder')
     )
   })
 
   it('Should call addCommentsPerFile with right params for serverless option', async () => {
-    await run([
+    await cli([
       '--serverless',
       'fake/folder/serverless.yml',
       '--basedir',
@@ -102,7 +108,7 @@ describe('CLI Unit', () => {
   })
 
   it('Should call addCommentsPerFile with right params for entrypoint option', async () => {
-    await run([
+    await cli([
       '--entrypoint',
       'fake/entry.js',
       '--basedir',
@@ -127,7 +133,7 @@ describe('CLI Unit', () => {
   })
 
   it('Should call generateMarkdownFromCommentedCode', async () => {
-    await run([
+    await cli([
       '--entrypoint',
       'fake/entry.js',
       '--basedir',

@@ -4,11 +4,14 @@ let model: OpenAI | undefined
 
 export function initializeOpenAI({
   modelName = 'gpt-4',
-  temperature = 0
+  temperature = 0,
+  apiKey
 }): OpenAI {
+  if (!apiKey) throw new Error('Missing apiKey')
+
   if (!model) {
     model = new OpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: apiKey,
       modelName,
       temperature
     })

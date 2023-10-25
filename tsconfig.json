@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "outDir": "./dist",
+    "module": "ESNext",
+    "declarationMap": true,
+    "declaration": true,
+    "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
