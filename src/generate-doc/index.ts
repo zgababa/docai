@@ -1,10 +1,11 @@
 import { getFilesFromFolder, deleteFolder, cleanFolder } from '../utils/file.js'
 
 import { writeMarkdownFile } from './write-markdown.js'
+import type { Config } from '../types/internal.js'
 
 export async function generateMarkdownFromCommentedCode(
   tmpDirectoryPath: string,
-  config: ConfigCLI
+  config: Config
 ): Promise<void> {
   cleanFolder(config.outputDir)
 

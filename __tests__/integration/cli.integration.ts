@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 
-import { run } from '../../src/cli/cli.js'
+import { cli } from '../../src/cli/cli'
 
 const mockTestFolder = path.resolve(__dirname, '../../_mock/test')
 
@@ -50,13 +50,13 @@ describe('CLI Integration Mocked', () => {
     jest.clearAllMocks()
   })
 
-  it('Should throw an error when not OPENAI_API_KEY is provided', async () => {
+  it('Should throw an error when OPENAI_API_KEY is not provided', async () => {
     process.env.OPENAI_API_KEY = ''
-    await expect(run([])).rejects.toThrow('Missing OPENAI_API_KEY in env')
+    await expect(cli([])).rejects.toThrow('Missing ENV OPENAI_API_KEY')
   })
 
   it('Should generate code', async () => {
-    await run([
+    await cli([
       '--entrypoint',
       path.resolve(`${mockTestFolder}/raw/src/back/getUsers.js`),
       '--basedir',
@@ -85,7 +85,7 @@ const {
   })
 
   it('Should generate markdown', async () => {
-    await run([
+    await cli([
       '--entrypoint',
       path.resolve(`${mockTestFolder}/raw/src/back/getUsers.js`),
       '--basedir',
@@ -109,7 +109,7 @@ This file contains two distinct parts. The first part is a JavaScript module tha
   })
 
   it('Should generate commented code and markdown with serverless plugin', async () => {
-    await run([
+    await cli([
       '--serverless',
       path.resolve(`${mockTestFolder}/plugins/serverless.yml`),
       '--basedir',

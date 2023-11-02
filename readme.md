@@ -44,6 +44,7 @@ OPENAI_API_KEY="YOUR_API_KEY" docai --output ./documentation --modelName gpt-3.5
 - `modelName`: Name of the OpenAI model to be used (default to `gpt-4`). List [here](https://platform.openai.com/docs/guides/gpt). (Optional)
 - `noDeleteTmp`: Flag to decide whether or not to delete the temporary folder. (Optional)
 - `tmpFolderPath`: Path for the temporary folder. (Optional)
+- `files`: Files from this array will be generated into markdown documentation. However the documentation generated will be less precise that with an entrypoint, it's because only files from this array will be documented, and context from import contained into "child" files will not be parsed. Not available with CLI.
 
 ## Environment Variables:
 

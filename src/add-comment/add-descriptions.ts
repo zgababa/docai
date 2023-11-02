@@ -1,16 +1,21 @@
 import path from 'path'
 import { parse } from '@babel/parser'
 import _generator from '@babel/generator'
-import _traverse, { type NodePath } from '@babel/traverse'
+import _traverse from '@babel/traverse'
+import { type NodePath } from '@babel/traverse'
 import * as babelT from '@babel/types'
 
 import { getExtensionFile } from '../utils/file.js'
+import {
+  type GeneratorImportType,
+  type TraverseImportType
+} from '../types/babel.js'
 
 // Made for jest to work, Fixed by babel 8 https://github.com/babel/babel/issues/13855
 // _traverse.default work for tsc, _traverse for jest
-const traverse = _traverse.default ?? (_traverse as any)
 
-const generator = _generator.default ?? (_generator as any)
+const traverse = (_traverse as TraverseImportType).default ?? _traverse
+const generator = (_generator as GeneratorImportType).default ?? _generator
 
 export function addDescriptionsToImports(
   fileToParse: string,
@@ -18,8 +23,10 @@ export function addDescriptionsToImports(
   descriptions: Record<string, string>
 ): any {
   const ast = parse(fileToParse, {
-    sourceType: 'module'
+    sourceType: 'module',
+    plugins: ['typescript']
   })
+
   traverse(ast, {
     // On ajoute le commentaire dans les requires correspondant aux fichiers déjà parsées
     CallExpression(pathTree: NodePath<babelT.CallExpression>) {

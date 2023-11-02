@@ -1,4 +1,4 @@
-import { type OpenAI } from 'langchain'
+import type { OpenAI } from 'langchain/llms/openai.js'
 import {
   generateMarkdown,
   generateCommentFromCode
@@ -8,7 +8,7 @@ import { initializeOpenAI } from '../../../src/llm/model.js'
 describe('llm', () => {
   let model: OpenAI
   beforeEach(() => {
-    model = initializeOpenAI({})
+    model = initializeOpenAI({ apiKey: 'OPEN_AI_API_KEY' })
   })
 
   afterEach(() => {
