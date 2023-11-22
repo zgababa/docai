@@ -4,7 +4,7 @@ DocAi is a tool that allows you to automatically generate markdown-formatted doc
 
 ## Prerequisites
 
-Your code gonna be send to ChatGPT, ensure that you have rights to do so.
+Your code will be sent to ChatGPT; ensure that you have the rights to do so.
 
 ## Installation
 
@@ -14,45 +14,93 @@ npm install --save-dev docai
 
 ## Usage Examples:
 
-**Minimal Configuration:**
+### Module
 
-Run these commands at the root of your project
+To document only some files:
+
+```javascript
+import docai from 'docai'
+
+await docai({
+  openAi: {
+    apiKey: 'YOUR_OPENAI_API_KEY'
+  },
+  outputDir: './generated',
+  files: ['./test2.ts', './test.js']
+})
+```
+
+To document your entire project, provide an entrypoint:
+
+```javascript
+await docai({
+  openAi: {
+    apiKey: 'YOUR_OPENAI_API_KEY'
+  },
+  outputDir: './generated',
+  entryPoint: './index.js'
+})
+```
+
+To document routes from your serverless project:
+
+```javascript
+await docai({
+  openAi: {
+    apiKey: 'YOUR_OPENAI_API_KEY'
+  },
+  outputDir: './generated',
+  serverlessEntryPoint: './serverless.yml'
+})
+```
+
+### Optional Options
+
+- `baseDir`: Defaults to the current directory. Otherwise, provide the directory path.
+- `openAi.temperature`: Temperature setting for the used model (0 by default).
+- `openAi.modelName`: Name of the OpenAI model to be used (defaults to gpt-4). [List here.](#)
+- `deleteTmpFolder`: Flag to decide whether or not to delete the temporary folder.
+- `tmpFolderPath`: Path for the temporary folder.
+
+### CLI
+
+Minimal Configuration:
+Run these commands at the root of your project:
 
 ```bash
 OPENAI_API_KEY="YOUR_API_KEY" docai --output ./documentation --entrypoint ./src/index.js
 ```
 
-**For Serverless project:**
+For a serverless project:
 
 ```bash
 OPENAI_API_KEY="YOUR_API_KEY" docai --output ./documentation --modelName chatgpt --serverless ./serverless.yml
 ```
 
-**Specifying a model:**
+Specifying a model:
 
 ```bash
 OPENAI_API_KEY="YOUR_API_KEY" docai --output ./documentation --modelName gpt-3.5-turbo --entrypoint ./src/index.js
 ```
 
-## Parameters:
+### Parameters:
 
 - `entrypoint`: Entry point of your application. (Required)
-- `serverless`: If present, it should contain the path to the `serverless.yml` file and will parse it to fetch your routes. (Required)
+- `serverless`: Path to the serverless.yml file for parsing routes in serverless projects. (Required)
 - `output`: Destination folder path. (Required)
-- `baseDir`: Defaults to the current directory, otherwise, provide the directory path. (Optional)
+- `baseDir`: Defaults to the current directory. Otherwise, provide the directory path. (Optional)
 - `temperature`: Temperature setting for the used model (0 by default). (Optional)
-- `modelName`: Name of the OpenAI model to be used (default to `gpt-4`). List [here](https://platform.openai.com/docs/guides/gpt). (Optional)
+- `modelName`: Name of the OpenAI model to be used (defaults to gpt-4). [List here.](https://platform.openai.com/docs/guides/text-generation) (Optional)
 - `noDeleteTmp`: Flag to decide whether or not to delete the temporary folder. (Optional)
 - `tmpFolderPath`: Path for the temporary folder. (Optional)
-- `files`: Files from this array will be generated into markdown documentation. However the documentation generated will be less precise that with an entrypoint, it's because only files from this array will be documented, and context from import contained into "child" files will not be parsed. Not available with CLI.
 
-## Environment Variables:
+### Environment Variables:
 
-Only the `OPENAI_API_KEY` environment variable is required. You can provide it via the command line, or if it's present in a `.env` file, it will be loaded automatically with the package `dotenv`.
+Only the `OPENAI_API_KEY` environment variable is required. It will be loaded automatically with the dotenv package if present in a .env file.
 
 ## Examples
 
-You can examine the code found in `_mock/test/raw/src` and compare it to the documented version in `_mock/test/generated/src`.
+You can examine the code found in \_mock/test/raw/src and compare it to the documented version in \_mock/test/generated/src.
 
 ## Upcoming Features:
 
@@ -65,4 +113,4 @@ You can examine the code found in `_mock/test/raw/src` and compare it to the doc
 
 ## Feedback and Contribution:
 
-We value your feedback and contributions! If you encounter any issues or have suggestions for improvements, please feel free to submit an issue on our GitHub repository.
+We value your feedback and contributions! If you encounter any issues or have suggestions for improvements, please feel free to submit an issue on our [GitHub repository](https://github.com/zgababa/docai).
