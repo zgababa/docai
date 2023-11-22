@@ -96,7 +96,7 @@ OPENAI_API_KEY="YOUR_API_KEY" docai --output ./documentation --modelName gpt-3.5
 
 ### Environment Variables:
 
-Only the `OPENAI_API_KEY` environment variable is required. It will be loaded automatically with the dotenv package if present in a .env file.
+Only the `OPENAI_API_KEY` environment variable is required.
 
 ## Examples
 
