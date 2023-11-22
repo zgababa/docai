@@ -57,8 +57,9 @@ await docai({
 ### Optional Options
 
 - `baseDir`: Defaults to the current directory. Otherwise, provide the directory path.
-- `openAi.temperature`: Temperature setting for the used model (0 by default).
-- `openAi.modelName`: Name of the OpenAI model to be used (defaults to gpt-4). [List here.](#)
+- `openAi`:
+  - `temperature`: Temperature setting for the used model (0 by default).
+  - `modelName`: Name of the OpenAI model to be used (defaults to gpt-4). [List here.](https://platform.openai.com/docs/guides/text-generation)
 - `deleteTmpFolder`: Flag to decide whether or not to delete the temporary folder.
 - `tmpFolderPath`: Path for the temporary folder.
 
