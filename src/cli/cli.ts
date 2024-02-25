@@ -7,6 +7,16 @@ function checkRequiredFields(args: RawConfig) {
     throw new Error('An outpath path is required')
   }
 
+  if (!['openAI', 'mistral'].includes(args.modelProvider)) {
+    throw new Error(
+      'Only openAI and mistral llm are supported. Please choose one with modelProvider argument'
+    )
+  }
+
+  if (!args.modelName) {
+    throw new Error('A modelName is required. Please fill modelName argument')
+  }
+
   if (!args.entrypoint && !args.serverless) {
     throw new Error(
       'You have to pass an entrypoint or a serverless path or a files array'
@@ -15,10 +25,8 @@ function checkRequiredFields(args: RawConfig) {
 }
 
 export async function cli(cliArgs: string[]): Promise<void> {
-  console.log('Generating your documentation...')
-
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error('Missing ENV OPENAI_API_KEY')
+  if (!process.env.API_KEY) {
+    throw new Error('You have to provide an API_KEY')
   }
 
   const args = minimist(cliArgs) as any as RawConfig
@@ -29,10 +37,11 @@ export async function cli(cliArgs: string[]): Promise<void> {
     outputDir: args.output,
     isMocked: Boolean(args.mocked),
     baseDir: args.basedir ?? '',
-    openAi: {
+    llm: {
       temperature: args.temperature,
       modelName: args.modelName,
-      apiKey: process.env.OPENAI_API_KEY
+      modelProvider: args.modelProvider as 'openAI' | 'mistral',
+      apiKey: process.env.API_KEY
     },
     files: [],
     entryPoint: args.entrypoint,

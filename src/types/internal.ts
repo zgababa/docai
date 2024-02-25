@@ -7,16 +7,24 @@ export type RawConfig = {
   entrypoint?: string
   serverless?: string
   temperature?: number
-  modelName?: string
+  modelName: string
+  modelProvider: string
   noDeleteTmp?: boolean
   tmpDirPath?: string
 }
 
 export type EntryConfigDocai = {
   outputDir: string
-  openAi: {
+  llm: {
     temperature?: number
-    modelName?: string
+    modelName:
+      | 'gpt-4'
+      | 'gpt-3.5'
+      | 'mistral-tiny'
+      | 'mistral-small'
+      | 'mistral-medium'
+      | string
+    modelProvider: 'openAI' | 'mistral'
     apiKey: string
   }
   baseDir?: string
@@ -30,9 +38,10 @@ export type EntryConfigDocai = {
 
 export type Config = {
   outputDir: string
-  openAi: {
+  llm: {
     temperature?: number
-    modelName?: string
+    modelName: string
+    modelProvider: string
     apiKey: string
   }
   files?: string[]

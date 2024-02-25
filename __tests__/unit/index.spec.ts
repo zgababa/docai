@@ -3,7 +3,7 @@ import { docai } from '../../src/index'
 import { addCommentsPerFile } from '../../src/add-comment/index.js'
 import { generateMarkdownFromCommentedCode } from '../../src/generate-doc/index.js'
 import { getHandlerPaths } from '../../src/plugins/serverless/index.js'
-import { initializeOpenAI } from '../../src/llm/model.js'
+import { initializeModel } from '../../src/llm/model.js'
 import type { EntryConfigDocai } from '../../src/types/internal'
 import { writeMarkdownFile } from '../../src/generate-doc/write-markdown.js'
 import { toJestMock } from '../../src/utils/mockType.js'
@@ -18,8 +18,10 @@ describe('Docai index', () => {
   const mockConfig: EntryConfigDocai = {
     outputDir: 'fakeFolderOutput',
     baseDir: 'baseDir',
-    openAi: {
-      apiKey: 'test-key'
+    llm: {
+      apiKey: 'test-key',
+      modelName: 'gpt-4',
+      modelProvider: 'openAI'
     }
   }
 
@@ -35,9 +37,9 @@ describe('Docai index', () => {
   })
 
   it('should throw an error when apiKey is missing', async () => {
-    const config = { ...mockConfig, openAi: undefined }
+    const config = { ...mockConfig, llm: undefined }
     await expect(docai(config as any)).rejects.toThrow(
-      'An OpenAI API KEY is required. Please fill openAI.apiKey'
+      'An API KEY is required. Please fill llm.apiKey'
     )
   })
 
@@ -53,9 +55,9 @@ describe('Docai index', () => {
     )
   })
 
-  it('should initialize OpenAI with correct parameters', async () => {
+  it('should initialize the model with correct parameters', async () => {
     await docai({ ...mockConfig, entryPoint: 'test.js' })
-    expect(initializeOpenAI).toHaveBeenCalledWith(mockConfig.openAi)
+    expect(initializeModel).toHaveBeenCalledWith(mockConfig.llm)
   })
 
   // TODO finir
