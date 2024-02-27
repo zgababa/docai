@@ -63,8 +63,10 @@ describe('Index Integration Mocked', () => {
       baseDir: path.resolve(`${mockTestFolder}/raw`),
       outputDir: path.resolve(__dirname, '../../_mock/test/markdownUpdated'),
       isMocked: true,
-      openAi: {
-        apiKey: 'OPENAI_API_KEY'
+      llm: {
+        apiKey: 'API_KEY',
+        modelName: 'gpt-3.5',
+        modelProvider: 'openAI'
       }
     })
 
@@ -92,8 +94,10 @@ const {
       baseDir: path.resolve(`${mockTestFolder}/raw`),
       outputDir: path.resolve(__dirname, '../../_mock/test/markdownUpdated'),
       isMocked: true,
-      openAi: {
-        apiKey: 'OPENAI_API_KEY'
+      llm: {
+        apiKey: 'API_KEY',
+        modelName: 'gpt-3.5',
+        modelProvider: 'openAI'
       }
     })
 
@@ -118,8 +122,10 @@ This file contains two distinct parts. The first part is a JavaScript module tha
       baseDir: path.resolve(`${mockTestFolder}/raw`),
       outputDir: path.resolve(__dirname, '../../_mock/test/markdownUpdated'),
       isMocked: true,
-      openAi: {
-        apiKey: 'OPENAI_API_KEY'
+      llm: {
+        apiKey: 'API_KEY',
+        modelName: 'gpt-3.5',
+        modelProvider: 'openAI'
       }
     })
 
@@ -156,8 +162,10 @@ module.exports.handler = createUser
       baseDir: path.resolve(`${mockTestFolder}/raw`),
       outputDir: path.resolve(__dirname, '../../_mock/test/markdownUpdated'),
       isMocked: true,
-      openAi: {
-        apiKey: 'OPENAI_API_KEY'
+      llm: {
+        apiKey: 'API_KEY',
+        modelName: 'gpt-3.5',
+        modelProvider: 'openAI'
       }
     })
 
@@ -191,8 +199,10 @@ module.exports.handler = createUser
       baseDir: path.resolve(`${mockTestFolder}/raw`),
       outputDir: path.resolve(__dirname, '../../_mock/test/markdownUpdated'),
       isMocked: true,
-      openAi: {
-        apiKey: 'OPENAI_API_KEY'
+      llm: {
+        apiKey: 'API_KEY',
+        modelName: 'gpt-3.5',
+        modelProvider: 'openAI'
       }
     })
 

@@ -16,6 +16,7 @@
     "noFallthroughCasesInSwitch": true,
     "typeRoots": ["./node_modules/@types"],
     "inlineSourceMap": true,
-    "noUnusedLocals": false
+    "noUnusedLocals": false,
+    "outDir": "./dist"
   }
 }

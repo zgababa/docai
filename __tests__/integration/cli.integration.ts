@@ -35,7 +35,7 @@ jest.mock('../../_mock/mock-config.ts', () => {
 
 describe('CLI Integration Mocked', () => {
   beforeEach(() => {
-    process.env.OPENAI_API_KEY = 'OPENAI_API_KEY'
+    process.env.API_KEY = 'API_KEY'
     fs.rmSync(path.resolve(`${mockTestFolder}/commented`), {
       recursive: true,
       force: true
@@ -50,9 +50,9 @@ describe('CLI Integration Mocked', () => {
     jest.clearAllMocks()
   })
 
-  it('Should throw an error when OPENAI_API_KEY is not provided', async () => {
-    process.env.OPENAI_API_KEY = ''
-    await expect(cli([])).rejects.toThrow('Missing ENV OPENAI_API_KEY')
+  it('Should throw an error when API_KEY is not provided', async () => {
+    process.env.API_KEY = ''
+    await expect(cli([])).rejects.toThrow('You have to provide an API_KEY')
   })
 
   it('Should generate code', async () => {
@@ -63,7 +63,11 @@ describe('CLI Integration Mocked', () => {
       path.resolve(`${mockTestFolder}/raw`),
       '--output',
       path.resolve(__dirname, '../../_mock/test/markdownUpdated'),
-      '--mocked'
+      '--mocked',
+      '--modelProvider',
+      'openAI',
+      '--modelName',
+      'gpt-4'
     ])
 
     const fileContent = fs.readFileSync(
@@ -92,7 +96,11 @@ const {
       path.resolve(`${mockTestFolder}/raw`),
       '--output',
       path.resolve(__dirname, '../../_mock/test/markdownUpdated'),
-      '--mocked'
+      '--mocked',
+      '--modelProvider',
+      'openAI',
+      '--modelName',
+      'gpt-4'
     ])
 
     const fileContent = fs.readFileSync(
@@ -116,7 +124,11 @@ This file contains two distinct parts. The first part is a JavaScript module tha
       path.resolve(`${mockTestFolder}/raw`),
       '--output',
       path.resolve(__dirname, '../../_mock/test/markdownUpdated'),
-      '--mocked'
+      '--mocked',
+      '--modelProvider',
+      'openAI',
+      '--modelName',
+      'gpt-4'
     ])
 
     const fileContent = fs.readFileSync(

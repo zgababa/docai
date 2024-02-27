@@ -1,25 +1,43 @@
-import { OpenAI } from 'langchain/llms/openai'
+import { ChatMistralAI } from '@langchain/mistralai'
+import { ChatOpenAI } from '@langchain/openai'
 
-let model: OpenAI | undefined
+let model: ChatOpenAI | ChatMistralAI | undefined
 
-export function initializeOpenAI({
-  modelName = 'gpt-4',
+export type MODEL = ChatOpenAI | ChatMistralAI
+
+export function initializeModel({
+  modelProvider,
+  modelName,
   temperature = 0,
   apiKey
-}): OpenAI {
+}): MODEL {
   if (!apiKey) throw new Error('Missing apiKey')
 
-  if (!model) {
-    model = new OpenAI({
-      openAIApiKey: apiKey,
-      modelName,
-      temperature
-    })
+  switch (modelProvider) {
+    case 'openAI':
+      model = new ChatOpenAI({
+        openAIApiKey: apiKey,
+        modelName,
+        temperature
+      })
+      break
+    case 'mistral':
+      model = new ChatMistralAI({
+        apiKey,
+        modelName,
+        temperature
+      })
+      break
+    default:
+      throw new Error(
+        'Only openAI and mistral llm are supported. Please choose one'
+      )
   }
+
   return model
 }
 
-export function getModel(): OpenAI {
+export function getModel(): MODEL {
   if (!model) {
     throw new Error('Model has not been initialized yet')
   }

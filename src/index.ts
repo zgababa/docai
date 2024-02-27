@@ -2,7 +2,7 @@ import path from 'path'
 import { addCommentsPerFile } from './add-comment/index.js'
 import { generateMarkdownFromCommentedCode } from './generate-doc/index.js'
 import { getHandlerPaths } from './plugins/serverless/index.js'
-import { initializeOpenAI } from './llm/model.js'
+import { initializeModel } from './llm/model.js'
 import type { Config, EntryConfigDocai } from './types/internal.js'
 import { writeMarkdownFile } from './generate-doc/write-markdown.js'
 
@@ -11,8 +11,18 @@ function checkRequiredFields(config: EntryConfigDocai) {
     throw new Error('An outpath directory is required. Please fill outputDir')
   }
 
-  if (!config.openAi?.apiKey) {
-    throw new Error('An OpenAI API KEY is required. Please fill openAI.apiKey')
+  if (!config.llm?.apiKey) {
+    throw new Error('An API KEY is required. Please fill llm.apiKey')
+  }
+
+  if (!['openAI', 'mistral'].includes(config.llm?.modelProvider)) {
+    throw new Error(
+      'Only openAI and mistral llm are supported. Please choose one'
+    )
+  }
+
+  if (!config.llm?.modelName) {
+    throw new Error('A modelName is required. Please fill llm.modelName')
   }
 
   if (
@@ -28,7 +38,7 @@ function checkRequiredFields(config: EntryConfigDocai) {
 
 export async function docai(configArgs: EntryConfigDocai): Promise<void> {
   checkRequiredFields(configArgs)
-  initializeOpenAI(configArgs.openAi)
+  initializeModel(configArgs.llm)
 
   const config: Config = {
     ...configArgs,
