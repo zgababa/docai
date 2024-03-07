@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2024-03-07
+
+### Added
+
+- Support for using Groq for document generation. This allows users to choose groq for content generation by specifying `groq` as the `modelProvider`.
+
 ## [2.0.0] - 2024-02-26
 
 ### Added

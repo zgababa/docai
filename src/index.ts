@@ -5,6 +5,7 @@ import { getHandlerPaths } from './plugins/serverless/index.js'
 import { initializeModel } from './llm/model.js'
 import type { Config, EntryConfigDocai } from './types/internal.js'
 import { writeMarkdownFile } from './generate-doc/write-markdown.js'
+import { PROVIDER_LIST } from './utils/contants.js'
 
 function checkRequiredFields(config: EntryConfigDocai) {
   if (!config.outputDir) {
@@ -15,9 +16,9 @@ function checkRequiredFields(config: EntryConfigDocai) {
     throw new Error('An API KEY is required. Please fill llm.apiKey')
   }
 
-  if (!['openAI', 'mistral'].includes(config.llm?.modelProvider)) {
+  if (!PROVIDER_LIST.includes(config.llm?.modelProvider)) {
     throw new Error(
-      'Only openAI and mistral llm are supported. Please choose one'
+      `Only ${PROVIDER_LIST.join(', ')} llm are supported. Please choose one`
     )
   }
 

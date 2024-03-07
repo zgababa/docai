@@ -1,3 +1,5 @@
+import type { T_PROVIDER_LIST } from '../utils/contants'
+
 export type FunctionsMapping = Record<string, string>
 
 export type RawConfig = {
@@ -23,8 +25,10 @@ export type EntryConfigDocai = {
       | 'mistral-tiny'
       | 'mistral-small'
       | 'mistral-medium'
+      | 'mixtral-8x7b-32768'
+      | 'llama2-70b-4096'
       | string
-    modelProvider: 'openAI' | 'mistral'
+    modelProvider: T_PROVIDER_LIST
     apiKey: string
   }
   baseDir?: string

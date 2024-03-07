@@ -5,6 +5,7 @@ import { generateMarkdownFromCommentedCode } from '../../../src/generate-doc/ind
 import { getHandlerPaths } from '../../../src/plugins/serverless/index.js'
 import { initializeModel } from '../../../src/llm/model.js'
 import { toJestMock } from '../../../src/utils/mockType.js'
+import { PROVIDER_LIST } from '../../../src/utils/contants.js'
 
 jest.mock('../../../src/add-comment/index.js')
 jest.mock('../../../src/generate-doc/index.js')
@@ -81,7 +82,9 @@ describe('CLI Unit', () => {
     await expect(async () => {
       await cli(['--output', 'fakeFolderOutput'])
     }).rejects.toThrow(
-      'Only openAI and mistral llm are supported. Please choose one with modelProvider argument'
+      `Only ${PROVIDER_LIST.join(
+        ', '
+      )} llm are supported. Please choose one with modelProvider argument`
     )
   })
 
