@@ -24,7 +24,7 @@ import docai from 'docai'
 await docai({
   llm: {
     apiKey: 'YOUR_API_KEY'
-    modelProvider: 'mistral' | 'openAI'
+    modelProvider: 'mistral' | 'openAI' | 'groq'
     modelName: 'mistral-tiny' | 'gpt-4' | ...
   },
   outputDir: './generated',
@@ -38,7 +38,7 @@ To document your entire project, provide an entrypoint:
 await docai({
   llm: {
     apiKey: 'YOUR_API_KEY'
-    modelProvider: 'mistral' | 'openAI'
+    modelProvider: 'mistral' | 'openAI' | 'groq'
     modelName: 'mistral-tiny' | 'gpt-4' | ...
   },
   outputDir: './generated',
@@ -52,7 +52,7 @@ To document routes from your serverless project:
 await docai({
   llm: {
     apiKey: 'YOUR_API_KEY'
-    modelProvider: 'mistral' | 'openAI'
+    modelProvider: 'mistral' | 'openAI'| 'groq'
     modelName: 'mistral-tiny' | 'gpt-4' | ...
   },
   outputDir: './generated',
@@ -80,7 +80,13 @@ API_KEY="YOUR_API_KEY" docai --output ./documentation --entrypoint ./src/index.j
 or with Mistral
 
 ```bash
-API_KEY="YOUR_API_KEY" docai --output ./documentation --entrypoint /Users/fabien/Projects/gen-doc/mistral-test/test.js --modelProvider mistral --modelName mistral-tiny
+API_KEY="YOUR_API_KEY" docai --output ./documentation --entrypoint ./src/index.js --modelProvider mistral --modelName mistral-tiny
+```
+
+or with Groq
+
+```bash
+API_KEY="YOUR_API_KEY" docai --output ./documentation --entrypoint ./src/index.js --modelProvider groq --modelName mixtral-8x7b-32768
 ```
 
 For a serverless project:
@@ -97,7 +103,7 @@ API_KEY="YOUR_API_KEY" docai --output ./documentation --modelProvider openAI --m
 - `baseDir`: Defaults to the current directory. Otherwise, provide the directory path. (Optional)
 - `temperature`: Temperature setting for the used model (0 by default). (Optional)
 - `modelName`: Name of the LLM model to use
-- `modelProvider`: Name of the LLM Provider to use - openAI or mistral
+- `modelProvider`: Name of the LLM Provider to use - openAI, mistral, groq
 - `noDeleteTmp`: Flag to decide whether or not to delete the temporary folder. (Optional)
 - `tmpFolderPath`: Path for the temporary folder. (Optional)
 

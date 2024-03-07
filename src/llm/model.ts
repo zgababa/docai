@@ -1,9 +1,11 @@
 import { ChatMistralAI } from '@langchain/mistralai'
 import { ChatOpenAI } from '@langchain/openai'
+import { ChatGroq } from '@langchain/groq'
+import { PROVIDER_LIST } from '../utils/contants.js'
 
-let model: ChatOpenAI | ChatMistralAI | undefined
+let model: ChatOpenAI | ChatMistralAI | ChatGroq | undefined
 
-export type MODEL = ChatOpenAI | ChatMistralAI
+export type MODEL = ChatOpenAI | ChatMistralAI | ChatGroq
 
 export function initializeModel({
   modelProvider,
@@ -28,9 +30,16 @@ export function initializeModel({
         temperature
       })
       break
+    case 'groq':
+      model = new ChatGroq({
+        apiKey,
+        modelName,
+        temperature
+      })
+      break
     default:
       throw new Error(
-        'Only openAI and mistral llm are supported. Please choose one'
+        `Only ${PROVIDER_LIST.join(', ')} llm are supported. Please choose one`
       )
   }
 
