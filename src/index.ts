@@ -12,34 +12,47 @@ function checkRequiredFields(config: EntryConfigDocai) {
     throw new Error('An outpath directory is required. Please fill outputDir')
   }
 
-  if (!config.llm?.apiKey) {
-    throw new Error('An API KEY is required. Please fill llm.apiKey')
-  }
-
-  if (!PROVIDER_LIST.includes(config.llm?.modelProvider)) {
+  if (config.llm && config.local) {
     throw new Error(
-      `Only ${PROVIDER_LIST.join(', ')} llm are supported. Please choose one`
+      'You can not have local and llm property together, please choose one'
     )
   }
 
-  if (!config.llm?.modelName) {
-    throw new Error('A modelName is required. Please fill llm.modelName')
-  }
+  if (config.llm) {
+    if (!config.llm?.apiKey) {
+      throw new Error('An API KEY is required. Please fill llm.apiKey')
+    }
 
-  if (
-    !config.entryPoint &&
-    !config.serverlessEntryPoint &&
-    !config.files?.length
-  ) {
-    throw new Error(
-      'You have to pass an entryPoint or a serverlessEntryPoint or an array of files'
-    )
+    if (!PROVIDER_LIST.includes(config.llm?.modelProvider)) {
+      throw new Error(
+        `Only ${PROVIDER_LIST.join(', ')} llm are supported. Please choose one`
+      )
+    }
+
+    if (!config.llm?.modelName) {
+      throw new Error('A modelName is required. Please fill llm.modelName')
+    }
+
+    if (
+      !config.entryPoint &&
+      !config.serverlessEntryPoint &&
+      !config.files?.length
+    ) {
+      throw new Error(
+        'You have to pass an entryPoint or a serverlessEntryPoint or an array of files'
+      )
+    }
+  } else {
+    if (!config.local?.modelName) {
+      throw new Error('A modelName is required. Please fill local.modelName')
+    }
   }
 }
 
 export async function docai(configArgs: EntryConfigDocai): Promise<void> {
   checkRequiredFields(configArgs)
-  initializeModel(configArgs.llm)
+
+  initializeModel(configArgs)
 
   const config: Config = {
     ...configArgs,

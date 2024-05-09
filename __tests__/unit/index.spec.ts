@@ -37,7 +37,7 @@ describe('Docai index', () => {
   })
 
   it('should throw an error when apiKey is missing', async () => {
-    const config = { ...mockConfig, llm: undefined }
+    const config = { ...mockConfig, llm: { foo: 'bar' } }
     await expect(docai(config as any)).rejects.toThrow(
       'An API KEY is required. Please fill llm.apiKey'
     )
@@ -55,12 +55,29 @@ describe('Docai index', () => {
     )
   })
 
-  it('should initialize the model with correct parameters', async () => {
-    await docai({ ...mockConfig, entryPoint: 'test.js' })
-    expect(initializeModel).toHaveBeenCalledWith(mockConfig.llm)
+  it('should throw an error when llm and local properties are provided', async () => {
+    const config = {
+      ...mockConfig,
+      local: {
+        foo: 'bar'
+      },
+      llm: {
+        bar: 'foo'
+      }
+    }
+    await expect(docai(config as any)).rejects.toThrow(
+      'You can not have local and llm property together, please choose one'
+    )
   })
 
-  // TODO finir
+  it('should initialize the model with correct parameters', async () => {
+    await docai({ ...mockConfig, entryPoint: 'test.js' })
+    expect(initializeModel).toHaveBeenCalledWith({
+      ...mockConfig,
+      entryPoint: 'test.js'
+    })
+  })
+
   it('should call writeMarkdownFile for each path in files', async () => {
     const config = {
       ...mockConfig,

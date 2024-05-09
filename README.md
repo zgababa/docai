@@ -2,17 +2,19 @@
 
 DocAi is a tool that allows you to automatically generate markdown-formatted documentation for your code.
 
-## Prerequisites
-
-Your code will be sent to an LLM; ensure that you have the rights to do so.
-
 ## Installation
 
 ```bash
 npm install --save-dev docai
 ```
 
-## Usage Examples:
+## External LLM Mode
+
+### Prerequisites
+
+Your code will be sent to an external provider; ensure that you have the rights to do so.
+
+### Usage Examples
 
 ### Module
 
@@ -100,16 +102,63 @@ API_KEY="YOUR_API_KEY" docai --output ./documentation --modelProvider openAI --m
 - `entrypoint`: Entry point of your application. (Required)
 - `serverless`: Path to the serverless.yml file for parsing routes in serverless projects. (Required)
 - `output`: Destination folder path. (Required)
+- `modelName`: Name of the LLM model to use. (Required)
+- `modelProvider`: Name of the LLM Provider to use - openAI, mistral, groq. (Required)
 - `baseDir`: Defaults to the current directory. Otherwise, provide the directory path. (Optional)
 - `temperature`: Temperature setting for the used model (0 by default). (Optional)
-- `modelName`: Name of the LLM model to use
-- `modelProvider`: Name of the LLM Provider to use - openAI, mistral, groq
 - `noDeleteTmp`: Flag to decide whether or not to delete the temporary folder. (Optional)
 - `tmpFolderPath`: Path for the temporary folder. (Optional)
 
 ### Environment Variables:
 
 Only the `API_KEY` environment variable is required.
+
+## Local Mode
+
+You can run DocAi in local, with [Ollama](https://github.com/ollama/ollama).
+
+Please follow instructions from the Ollama documentation to install and run a model.
+
+### Usage :
+
+Open a terminal tab, and run a model with [Ollama](https://github.com/ollama/ollama).
+
+Ex: `ollama run llama2`
+
+Then run DocAI with _CLI_ or _Module_
+
+#### CLI
+
+```bash
+docai --output ./documentation --entrypoint ./src/index.js --modelName llama2 --local --baseUrl http://localhost:11434
+```
+
+### Parameters:
+
+- `entrypoint`: Entry point of your application. (Required)
+- `serverless`: Path to the serverless.yml file for parsing routes in serverless projects. (Required)
+- `output`: Destination folder path. (Required)
+- `local`: Flag to local mode. (Required)
+- `modelName`: Name of the LLM model to use. (Required)
+- `baseDir`: Defaults to the current directory. Otherwise, provide the directory path. (Optional)
+- `baseUrl`: Ollama REST API endpoint, default to http://localhost:11434 (Optional)
+
+#### Module
+
+```javascript
+import docai from 'docai'
+
+ await docai({
+   local: {
+     modelName: 'llama2'
+     baseUrl: 'http://localhost:11434' // default value, optional field
+   },
+   outputDir: './generated',
+   files: ['./test2.ts', './test.js']
+ })
+```
+
+Note: If you work in local mode, you can not pass llm object parameter.
 
 ## Examples
 
