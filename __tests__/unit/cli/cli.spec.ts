@@ -51,7 +51,15 @@ describe('CLI Unit', () => {
     }).rejects.toThrow('You have to provide an API_KEY')
   })
 
-  it('Should call initializeModel', async () => {
+  it('Should no throw an error when API_KEY is missing in local mode', async () => {
+    process.env.API_KEY = ''
+
+    await expect(async () => {
+      await cli(['--local'])
+    }).rejects.not.toThrow('You have to provide an API_KEY')
+  })
+
+  it('Should call initializeModel with llm', async () => {
     await cli([
       '--temperature',
       '10',
@@ -65,17 +73,53 @@ describe('CLI Unit', () => {
       'fakeFolderOutput'
     ])
     expect(initializeModel).toHaveBeenCalledWith({
-      apiKey: 'test-key',
-      temperature: 10,
-      modelName: 'gpt-4',
-      modelProvider: 'openAI'
+      baseDir: '',
+      deleteTmpFolder: true,
+      entryPoint: 'fake/path.js',
+      files: [],
+      isMocked: false,
+      llm: {
+        apiKey: 'test-key',
+        temperature: 10,
+        modelName: 'gpt-4',
+        modelProvider: 'openAI'
+      },
+      outputDir: 'fakeFolderOutput',
+      serverlessEntryPoint: undefined,
+      tmpFolderPath: ''
     })
   })
 
-  it('Should throw an error when output is missing', async () => {
-    await expect(async () => {
-      await cli([])
-    }).rejects.toThrow('An outpath path is required')
+  it('Should call initializeModel with local when local args is passed', async () => {
+    await cli([
+      '--temperature',
+      '10',
+      '--modelName',
+      'llama2',
+      '--modelProvider',
+      'openAI',
+      '--entrypoint',
+      'fake/path.js',
+      '--output',
+      'fakeFolderOutput',
+      '--local',
+      '--baseUrl',
+      'http://localhost:1234'
+    ])
+    expect(initializeModel).toHaveBeenCalledWith({
+      baseDir: '',
+      deleteTmpFolder: true,
+      entryPoint: 'fake/path.js',
+      files: [],
+      isMocked: false,
+      local: {
+        modelName: 'llama2',
+        baseUrl: 'http://localhost:1234'
+      },
+      outputDir: 'fakeFolderOutput',
+      serverlessEntryPoint: undefined,
+      tmpFolderPath: ''
+    })
   })
 
   it('Should throw an error when no modelProvider is passed', async () => {
@@ -86,6 +130,22 @@ describe('CLI Unit', () => {
         ', '
       )} llm are supported. Please choose one with modelProvider argument`
     )
+  })
+
+  it('Should no throw an error when modelProvider is missing in local mode', async () => {
+    await expect(async () => {
+      await cli(['--local'])
+    }).rejects.not.toThrow(
+      `Only ${PROVIDER_LIST.join(
+        ', '
+      )} llm are supported. Please choose one with modelProvider argument`
+    )
+  })
+
+  it('Should throw an error when output is missing', async () => {
+    await expect(async () => {
+      await cli(['--modelProvider', 'mistral'])
+    }).rejects.toThrow('An outpath path is required')
   })
 
   it('Should throw an error when no modelName is passed', async () => {
