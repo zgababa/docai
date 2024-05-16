@@ -15,6 +15,7 @@ export type RawConfig = {
   tmpDirPath?: string
   local?: boolean
   baseUrl?: string
+  template?: string
 }
 
 type BaseEntryConfigDocai = {
@@ -26,6 +27,7 @@ type BaseEntryConfigDocai = {
   serverlessEntryPoint?: string
   deleteTmpFolder?: boolean
   tmpFolderPath?: string
+  template?: string
 }
 
 export type EntryConfigDocai =
@@ -63,6 +65,7 @@ type BaseConfig = {
   isMocked: boolean
   deleteTmpFolder: boolean
   tmpFolderPath: string
+  template?: string
 }
 
 export type Config =

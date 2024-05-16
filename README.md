@@ -69,6 +69,7 @@ await docai({
   - `temperature`: Temperature setting for the used model (0 by default).
 - `deleteTmpFolder`: Flag to decide whether or not to delete the temporary folder.
 - `tmpFolderPath`: Path for the temporary folder.
+- `template`: Prompt template send to the LLM to document the code, default value can be found [here](https://github.com/zgababa/docai/blob/main/src/llm/llm.ts)
 
 ### CLI
 
@@ -108,6 +109,7 @@ API_KEY="YOUR_API_KEY" docai --output ./documentation --modelProvider openAI --m
 - `temperature`: Temperature setting for the used model (0 by default). (Optional)
 - `noDeleteTmp`: Flag to decide whether or not to delete the temporary folder. (Optional)
 - `tmpFolderPath`: Path for the temporary folder. (Optional)
+- `template`: Prompt template send to the LLM to document the code, default value can be found [here](https://github.com/zgababa/docai/blob/main/src/llm/llm.ts). (Optional)
 
 ### Environment Variables:
 
@@ -166,8 +168,6 @@ You can examine the code found in \_mock/test/raw/src and compare it to the docu
 
 ## Upcoming Features:
 
-- Templating.
-- Support for multiple LLMs.
 - Multiple entry points.
 - Multilingual capabilities.
 - Frontend application documentation.

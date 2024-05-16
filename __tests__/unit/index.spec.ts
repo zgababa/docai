@@ -22,7 +22,8 @@ describe('Docai index', () => {
       apiKey: 'test-key',
       modelName: 'gpt-4',
       modelProvider: 'openAI'
-    }
+    },
+    template: 'template'
   }
 
   afterEach(() => {

@@ -6,7 +6,8 @@ export async function getMarkdown(
   inputFilePath: string,
   codeContent: string,
   title: string,
-  isMocked: boolean
+  isMocked: boolean,
+  template?: string
 ): Promise<string> {
   if (isMocked) {
     if (!cacheMocked[inputFilePath]) {
@@ -15,5 +16,5 @@ export async function getMarkdown(
     return fs.readFileSync(cacheMocked[inputFilePath], 'utf-8')
   }
 
-  return await generateMarkdown(codeContent, title)
+  return await generateMarkdown(codeContent, title, template)
 }
