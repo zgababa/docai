@@ -1,6 +1,6 @@
 {
   "name": "docai",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Generate documentation from your code with AI",
   "main": "./dist/src/index.js",
   "type": "module",

@@ -36,7 +36,8 @@ describe('writeMarkdownFile', () => {
 
     const fn = writeMarkdownFile(originalDir, {
       outputDir: '/mock/websiteDir',
-      isMocked: true
+      isMocked: true,
+      template: 'template'
     } as any)
     await fn(inputFilePath)
 
@@ -44,7 +45,8 @@ describe('writeMarkdownFile', () => {
       inputFilePath,
       codeContent,
       title,
-      true
+      true,
+      'template'
     )
     expect(getOutputFilePath).toHaveBeenCalledWith(
       inputFilePath,

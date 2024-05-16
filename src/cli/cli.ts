@@ -63,6 +63,7 @@ export async function cli(cliArgs: string[]): Promise<void> {
     entryPoint: args.entrypoint,
     serverlessEntryPoint: args.serverless,
     deleteTmpFolder: !args.noDeleteTmp,
-    tmpFolderPath: args.tmpDirPath ?? ''
+    tmpFolderPath: args.tmpDirPath ?? '',
+    template: args.template
   })
 }

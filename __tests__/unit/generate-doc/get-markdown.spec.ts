@@ -52,6 +52,29 @@ describe('getMarkdown', () => {
     )
 
     expect(result).toBe('Generated Markdown Content')
-    expect(generateMarkdown).toHaveBeenCalledWith('codeContent', 'title')
+    expect(generateMarkdown).toHaveBeenCalledWith(
+      'codeContent',
+      'title',
+      undefined
+    )
+  })
+
+  it('Should generate markdown with template', async () => {
+    toJestMock(generateMarkdown).mockResolvedValue('Generated Markdown Content')
+
+    const result = await getMarkdown(
+      'any-path.js',
+      'codeContent',
+      'title',
+      false,
+      'template'
+    )
+
+    expect(result).toBe('Generated Markdown Content')
+    expect(generateMarkdown).toHaveBeenCalledWith(
+      'codeContent',
+      'title',
+      'template'
+    )
   })
 })

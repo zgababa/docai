@@ -21,7 +21,8 @@ export function writeMarkdownFile(originalDir: string, config: Config) {
       inputFilePath,
       codeContent,
       title,
-      config.isMocked
+      config.isMocked,
+      config.template
     )
     const outputFilePath = getOutputFilePath(
       inputFilePath,

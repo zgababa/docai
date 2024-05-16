@@ -245,13 +245,16 @@ describe('CLI Unit', () => {
       '--modelProvider',
       'mistral',
       '--modelName',
-      'mistral-tiny'
+      'mistral-tiny',
+      '--template',
+      'my-template'
     ])
     expect(generateMarkdownFromCommentedCode).toHaveBeenCalledWith(
       '/tmp/commented',
       Object.assign({}, config, {
         entryPoint: 'fake/entry.js',
-        serverlessEntryPoint: undefined
+        serverlessEntryPoint: undefined,
+        template: 'my-template'
       })
     )
   })

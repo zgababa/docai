@@ -16,6 +16,18 @@ describe('llm', () => {
     it('Should call the llm with correct parameters', async () => {
       const code = 'code'
       const title = 'title'
+      const template = 'template'
+
+      const result = await generateMarkdown(code, title, template)
+
+      expect(ChatPromptTemplate.fromTemplate).toHaveBeenCalledTimes(1)
+      expect(ChatPromptTemplate.fromTemplate).toHaveBeenCalledWith('template')
+      expect(getModel).toHaveBeenCalledTimes(1)
+      expect(result).toBe('mocked content')
+    })
+    it('Should call the llm with default template', async () => {
+      const code = 'code'
+      const title = 'title'
 
       const result = await generateMarkdown(code, title)
 

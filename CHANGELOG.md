@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2024-05-16
+
+- Add the possibility to customize the prompt template used to instruct the LLM to create code documentation.
+  Just pass `--template` to the CLI, or `template` to the Docai module.
+
 ## [2.2.0] - 2024-05-09
 
 - Support to generate documentation locally with Ollama.
